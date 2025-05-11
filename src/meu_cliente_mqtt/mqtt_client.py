@@ -27,10 +27,12 @@ class MQTTClient:
 
         self.client.tls_insecure_set(False)    # exige que o host bate com o certificado 
                                                # (usa SNI)
-        self.client.enable_logger()            #ajuda no debug
+        #self.client.enable_logger()            #ajuda no debug
        
-         # Flags de estado
-        self._connected_event = threading.Event()
+        # Configuração de reconexão automática
+        # Define um intervalo entre tentativas de reconexão, 
+        #com crescimento exponencial entre 1s e 60s se a conexão cair.
+        self.client.reconnect_delay_set(min_delay=1, max_delay=60)
 
         # Callbacks
         self.client.on_connect    = self._on_connect
@@ -39,13 +41,14 @@ class MQTTClient:
         self.client.on_subscribe  = self._on_subscribe
         self.client.on_message    = self._on_message
 
+
     def _on_connect(self, client, userdata, flags, rc):
         if rc == 0:
             print(f"[ON_CONNECT] Conectado com sucesso ao {self.host}:{self.port}")
-            self._connected_event.set()
+            #self._connected_event.set()
         else:
             print(f"[ON_CONNECT] Falha na conexão, código de erro: {rc}")
-            self._connected_event.set()
+            #self._connected_event.set()
 
     def _on_disconnect(self, client, userdata, rc):
         print(f"[ON_DISCONNECT] Desconectado, código de retorno: {rc}")
@@ -62,15 +65,9 @@ class MQTTClient:
     def connect(self, keepalive: int = 60, timeout: float = 5.0):
         """Conecta ao broker MQTT."""
         print(f"[CONNECT] Tentando conectar a {self.host}:{self.port} …")
-        self.client.connect(self.host, self.port, keepalive)
+        self.client.connect_async(self.host, self.port, keepalive)
         # Inicia o loop em background para processar callbacks
         self.client.loop_start()
-
-        # Aguarda o callback on_connect (sucesso ou falha)
-        connected = self._connected_event.wait(timeout=timeout)
-        if not connected:
-            raise TimeoutError(f"Tempo esgotado ({timeout}s) aguardando on_connect")
-        # Se rc != 0, o próprio callback já imprimiu o erro
 
     def disconnect(self):
         """Desliga o loop e desconecta."""

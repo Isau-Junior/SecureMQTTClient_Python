@@ -34,19 +34,31 @@ def main():
         ca_cert
     )
 
+    client.connect()
+
     try:
-        client.connect()
-        # Teste de subscribe
-        client.subscribe("teste/status", qos=1)
-         # Teste de publish
-        client.publish("teste/status", "Hello World!", qos=1)
-        # Permanece alguns segundos para receber callbacks
-        print("Aguardando callbacks…")
-        time.sleep(5)
-    except Exception as e:
-        print("Erro durante o teste:", e)
-    finally:
-        client.disconnect()
+
+        while True:
+            topic = input("Digite o tópico para subscrever (ou :sair para sair): ")
+            if topic == ":sair":
+                raise KeyboardInterrupt
+            else:
+                client.subscribe(topic=topic, qos=1)
+
+            print("Digite uma mensagens para envia para esse tópico" \
+                  " e pressione Enter (Ctrl+C para sair).")
+            
+            while True:
+                msg = input(">")
+                if msg == ":trocar":
+                    break
+                elif msg == ":sair":
+                    raise KeyboardInterrupt
+                elif msg:
+                    client.publish(topic=topic, payload=msg, qos=1, retain=True)
+
+    except KeyboardInterrupt:
+        print("\nEncerrando cliente MQTT...")
 
 if  __name__ == "__main__":
     main()
