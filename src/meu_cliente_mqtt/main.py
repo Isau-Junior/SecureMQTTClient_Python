@@ -14,7 +14,6 @@ def get_machine_id(file_path='machine_id.txt'):
             file.write(machine_id)
     return machine_id
 
-
 def main():
     load_dotenv(override=True)
 
@@ -39,7 +38,7 @@ def main():
     try:
 
         while True:
-            topic = input("Digite o tópico para subscrever (ou :sair para sair): ")
+            topic = input("Digite o tópico para subscrever (ou ':sair' para sair): ")
             if topic == ":sair":
                 raise KeyboardInterrupt
             else:
