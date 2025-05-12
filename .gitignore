@@ -1,6 +1,46 @@
+# Ambientes virtuais (pasta oculta ou visível)
 .venv/
-src\meu_cliente_mqtt\__pycache__/
-src\meu_cliente_mqtt\machine_id.txt
-*.pyc
+venv/
+ENV/
+env/
+
+# Bytecode e cache do Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Arquivos de log e temporários
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Configurações de IDEs/editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Variáveis de ambiente
 .env
+
+# Arquivos de certificado
 certs/
+
+# Arquivo de ID da máquina (gerado localmente)
+src/meu_cliente_mqtt/machine_id.txt
+
+# Diretórios de build/distribuição
+build/src/meu_cliente_mqtt
+dist/
+*.egg-info/
+
+# Arquivos específicos do pip
+pip-log.txt
+pip-delete-this-directory.txt
