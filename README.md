@@ -59,6 +59,7 @@ A maioria dos brokers gratuitos em nuvem exigem:
     pip install -r requirements.txt
     ```
 4. **Edite as configurações de conexão no main.py**
+    Crie um arquivo .env e nele, configure
 
     Preencha com os dados do broker MQTT na nuvem (host, porta, usuário, senha, etc).
 5. **Execute o programa**
