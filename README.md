@@ -15,6 +15,7 @@ Este projeto tem como objetivo implementar um **cliente MQTT em Python para test
 - Python 3.10+
 - [paho-mqtt](https://pypi.org/project/paho-mqtt/) – biblioteca MQTT para Python
 - TLS via biblioteca padrão `ssl` do Python
+- [python-dotenv](https://pypi.org/project/python-dotenv/) – para carregar variáveis do arquivo `.env`
 
 ---
 
